@@ -1,27 +1,18 @@
+
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { useEffect, useState } from 'react';
+import { useTheme } from '@/context/ThemeProvider';
 
 export default function SettingsPage() {
-  const [isDark, setIsDark] = useState(false);
+  const { theme, setTheme } = useTheme();
 
-  useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains('dark');
-    setIsDark(isDarkMode);
-  }, []);
+  const isDark = theme === 'dark';
 
   const toggleTheme = (checked: boolean) => {
-    setIsDark(checked);
-    if (checked) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+    setTheme(checked ? 'dark' : 'light');
   };
 
 
