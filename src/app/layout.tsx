@@ -22,6 +22,7 @@ import {
   Lightbulb,
   Github,
   User,
+  Settings,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import { FeatureProvider } from '@/context/FeatureContext';
@@ -44,7 +45,7 @@ export default function RootLayout({
   const pathname = usePathname();
 
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -102,7 +103,20 @@ export default function RootLayout({
                 </SidebarMenu>
               </SidebarContent>
               <SidebarFooter>
-                 <div className="flex items-center gap-3">
+                 <SidebarMenu>
+                  <SidebarMenuItem>
+                    <Link href="/settings" passHref>
+                      <SidebarMenuButton
+                        isActive={pathname === '/settings'}
+                        tooltip="Settings"
+                      >
+                        <Settings />
+                        <span>Settings</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
+                  </SidebarMenu>
+                 <div className="flex items-center gap-3 p-2">
                     <Avatar className="h-9 w-9">
                         <AvatarImage src="https://placehold.co/40x40.png" alt="Product Manager" data-ai-hint="person portrait" />
                         <AvatarFallback>PM</AvatarFallback>
