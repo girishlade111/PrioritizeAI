@@ -26,16 +26,22 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
-  storageKey = 'vite-ui-theme',
+  storageKey = 'prioritize-ai-theme',
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(
     () => (typeof window !== 'undefined' 
-      ? localStorage.getItem(storageKey) as Theme 
+      ? (localStorage.getItem(storageKey) as Theme)
       : undefined) || defaultTheme
   );
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
 
@@ -48,7 +54,7 @@ export function ThemeProvider({
     }
 
     root.classList.add(theme);
-  }, [theme]);
+  }, [theme, mounted]);
 
   const value = {
     theme,
@@ -57,6 +63,10 @@ export function ThemeProvider({
       setTheme(theme);
     },
   };
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <ThemeProviderContext.Provider {...props} value={value}>
