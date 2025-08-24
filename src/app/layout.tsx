@@ -12,6 +12,7 @@ import {
   SidebarInset,
   SidebarFooter,
   SidebarTrigger,
+  SidebarSeparator,
 } from '@/components/ui/sidebar';
 import {
   LayoutDashboard,
@@ -19,6 +20,10 @@ import {
   Lightbulb,
   Github,
   Settings,
+  Instagram,
+  Linkedin,
+  Codepen,
+  Mail,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import { Button } from '@/components/ui/button';
@@ -72,6 +77,34 @@ export default function RootLayout({
                     </Link>
                   </SidebarMenuItem>
                   </SidebarMenu>
+                  <SidebarSeparator />
+                  <div className="flex items-center justify-center gap-2 group-data-[collapsible=icon]:hidden">
+                      <Button variant="ghost" size="icon" asChild>
+                          <a href="https://www.instagram.com/girish_lade_/" target="_blank" aria-label="Instagram">
+                              <Instagram className="h-4 w-4" />
+                          </a>
+                      </Button>
+                      <Button variant="ghost" size="icon" asChild>
+                          <a href="https://www.linkedin.com/in/girish-lade-075bba201/" target="_blank" aria-label="LinkedIn">
+                              <Linkedin className="h-4 w-4" />
+                          </a>
+                      </Button>
+                      <Button variant="ghost" size="icon" asChild>
+                          <a href="https://github.com/girishlade111" target="_blank" aria-label="GitHub">
+                              <Github className="h-4 w-4" />
+                          </a>
+                      </Button>
+                      <Button variant="ghost" size="icon" asChild>
+                          <a href="https://codepen.io/Girish-Lade-the-looper" target="_blank" aria-label="Codepen">
+                              <Codepen className="h-4 w-4" />
+                          </a>
+                      </Button>
+                      <Button variant="ghost" size="icon" asChild>
+                          <a href="mailto:girishlade111@gmail.com" aria-label="Email">
+                              <Mail className="h-4 w-4" />
+                          </a>
+                      </Button>
+                  </div>
                  <div className="flex items-center gap-3 p-2">
                     <Avatar className="h-9 w-9">
                         <AvatarImage src="https://placehold.co/40x40.png" alt="Product Manager" data-ai-hint="person portrait" />
@@ -88,7 +121,7 @@ export default function RootLayout({
                 <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6 md:justify-end">
                     <SidebarTrigger className="md:hidden" />
                     <Button variant="ghost" size="icon" asChild>
-                        <a href="https://github.com" target="_blank" aria-label="GitHub Repository">
+                        <a href="https://github.com/girishlade111" target="_blank" aria-label="GitHub Repository">
                             <Github />
                         </a>
                     </Button>
