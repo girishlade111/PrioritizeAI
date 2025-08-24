@@ -29,44 +29,43 @@ export function ThemeProvider({
   storageKey = 'vite-ui-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(defaultTheme);
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
+    }
+    return defaultTheme;
+  });
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem(storageKey) as Theme | null;
-    if (storedTheme) {
-      setTheme(storedTheme);
-    }
     setMounted(true);
-  }, [storageKey]);
+  }, []);
 
   useEffect(() => {
-    if (!mounted) return;
+    if (mounted) {
+      const root = window.document.documentElement;
+      root.classList.remove('light', 'dark');
 
-    const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-
-    let currentTheme = theme;
-    if (theme === 'system') {
-      currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light';
+      let currentTheme = theme;
+      if (theme === 'system') {
+        currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+      }
+      root.classList.add(currentTheme);
+      localStorage.setItem(storageKey, theme);
     }
-    root.classList.add(currentTheme);
-  }, [theme, mounted]);
+  }, [theme, mounted, storageKey]);
 
 
   const value = {
     theme,
-    setTheme: (newTheme: Theme) => {
-      localStorage.setItem(storageKey, newTheme);
-      setTheme(newTheme);
-    },
+    setTheme,
   };
 
   if (!mounted) {
-    // Render nothing or a loader on the server and initial client render
-    // to avoid hydration mismatch
+    // To prevent hydration mismatch, we'll render null on the server
+    // and on the initial client render. The content will appear after mounting.
     return null;
   }
   
