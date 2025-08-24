@@ -41,6 +41,7 @@ export function ThemeProvider({
     setMounted(true);
   }, []);
 
+
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
