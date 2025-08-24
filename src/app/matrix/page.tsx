@@ -1,11 +1,9 @@
-'use client';
-
 import { PrioritizationMatrix } from '@/components/prioritization-matrix';
-import { useFeatures } from '@/context/FeatureContext';
+import { MOCK_FEATURES } from '@/lib/mock-data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function MatrixPage() {
-  const { features } = useFeatures();
+  const features = MOCK_FEATURES;
 
   // Calculate scores for the matrix
   const matrixData = features.map(f => {

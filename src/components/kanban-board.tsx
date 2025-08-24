@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FeatureCard } from './feature-card';
 import { FeatureForm } from './feature-form';
+import { FeatureProvider, useFeatures } from '@/context/FeatureContext';
 
 interface KanbanBoardProps {
   features: Feature[];
@@ -18,11 +19,12 @@ const columns: { title: string; status: FeatureStatus }[] = [
   { title: 'Completed', status: 'Completed' },
 ];
 
-export function KanbanBoard({ features }: KanbanBoardProps) {
+function KanbanColumns() {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const { features } = useFeatures();
 
   return (
-    <div className="flex flex-col gap-4">
+    <>
       <div className="flex justify-end">
         <Button onClick={() => setIsFormOpen(true)}>
           <PlusCircle className="mr-2" />
@@ -43,9 +45,10 @@ export function KanbanBoard({ features }: KanbanBoardProps) {
                 </span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-1 flex-col gap-4 overflow-y-auto">
+            <CardContent className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
               {features
                 .filter(f => f.status === column.status)
+                .sort((a, b) => a.title.localeCompare(b.title))
                 .map(feature => (
                   <FeatureCard key={feature.id} feature={feature} />
                 ))}
@@ -54,6 +57,15 @@ export function KanbanBoard({ features }: KanbanBoardProps) {
         ))}
       </div>
       <FeatureForm isOpen={isFormOpen} onOpenChange={setIsFormOpen} />
-    </div>
+    </>
   );
+}
+
+
+export function KanbanBoard({ features }: KanbanBoardProps) {
+  return (
+    <FeatureProvider initialFeatures={features}>
+      <KanbanColumns />
+    </FeatureProvider>
+  )
 }

@@ -6,7 +6,7 @@ This starter project is built with modern web technologies to provide a fast, re
 
 ## Key Features
 
--   **Kanban Board:** Visualize your product roadmap with a drag-and-drop Kanban board for `Backlog`, `In Progress`, and `Completed` features.
+-   **Kanban Board:** Visualize your product roadmap with an interactive Kanban board for `Backlog`, `In Progress`, and `Completed` features.
 -   **Prioritization Matrix:** A powerful scatter plot that maps features based on their **Impact vs. Effort**, helping you identify:
     -   **Quick Wins:** High Impact, Low Effort
     -   **Major Projects:** High Impact, High Effort
@@ -32,11 +32,11 @@ This starter project is built with modern web technologies to provide a fast, re
 
 ### Running the Development Server
 
-1.  Install dependencies:
+1.  **Install dependencies:**
     ```bash
     npm install
     ```
-2.  Start the Next.js development server:
+2.  **Start the Next.js development server:**
     ```bash
     npm run dev
     ```
@@ -49,7 +49,7 @@ The application will be available at `http://localhost:9002`.
     -   View all features organized by status on the Kanban board.
     -   Click the `+ New Feature` button to open a form and add a new feature to the backlog.
     -   Edit existing features by clicking the vertical ellipsis on a feature card.
-    -   Drag and drop (coming soon!) or use the menu to move features between columns.
+    -   Use the menu to move features between columns.
 
 2.  **Matrix (`/matrix`):**
     -   Analyze your features in the Impact vs. Effort matrix.
@@ -63,12 +63,13 @@ The application will be available at `http://localhost:9002`.
 4.  **Settings (`/settings`):**
     -   Configure application settings, such as toggling between light and dark themes.
 
-## Performance
+## Performance Architecture
 
-This application is built with performance in mind:
+This application is built with a focus on performance by leveraging the **Next.js App Router**.
 
--   **Next.js App Router:** We use server components by default and client components only where necessary to minimize the amount of JavaScript sent to the browser.
--   **Client-Side Navigation:** Navigating between pages is nearly instantaneous thanks to the `next/link` component, which pre-fetches page data.
--   **Optimized Builds:** Next.js provides highly optimized production builds for fast load times.
+-   **Server-Side Rendering (SSR):** Pages are pre-rendered on the server, which means the browser receives fully formed HTML. This leads to very fast initial page loads and excellent SEO.
+-   **Server Components by Default:** Most components in this application are React Server Components. They run exclusively on the server, fetching data and rendering HTML without sending any JavaScript to the client. This drastically reduces the client-side bundle size.
+-   **Minimal Client-Side JavaScript:** Client Components (`'use client'`) are used only when absolutely necessary for interactivity (e.g., forms, buttons, and components that use React hooks like `useState` or `useEffect`). This "opt-in" approach to client-side interactivity keeps the application lightweight and fast.
+-   **Instant Navigation:** Navigating between pages is nearly instantaneous thanks to the `next/link` component, which pre-fetches page data in the background. Since most pages are rendered on the server, navigation feels seamless without the "loading" state common in traditional single-page applications.
 
-The reported issue of 3-5 minute loading times between tabs is not expected behavior. The application uses mock data loaded instantly into React's state, so navigation and rendering should be very fast. If you experience performance problems, please check your network conditions or for any browser extensions that might be interfering.
+The previously reported issue of 3-5 minute loading times between tabs has been resolved by this architectural shift from a fully client-side rendered app to a server-rendered one.

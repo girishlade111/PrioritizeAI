@@ -1,10 +1,8 @@
-'use client';
-
 import { KanbanBoard } from '@/components/kanban-board';
-import { useFeatures } from '@/context/FeatureContext';
+import { MOCK_FEATURES } from '@/lib/mock-data';
 
 export default function DashboardPage() {
-  const { features } = useFeatures();
+  const features = MOCK_FEATURES;
 
   return (
     <div className="flex flex-col gap-6">
