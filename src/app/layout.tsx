@@ -24,6 +24,7 @@ import {
   Linkedin,
   Codepen,
   Mail,
+  Kanban,
 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import { Button } from '@/components/ui/button';

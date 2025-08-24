@@ -2,13 +2,38 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, ScatterChart, Lightbulb } from 'lucide-react';
-import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
+import {
+  LayoutDashboard,
+  ScatterChart,
+  Lightbulb,
+  Kanban,
+} from 'lucide-react';
+import {
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+} from '@/components/ui/sidebar';
 
 const navItems = [
-    { href: '/', label: 'Dashboard', icon: LayoutDashboard, tooltip: 'Dashboard' },
-    { href: '/matrix', label: 'Matrix', icon: ScatterChart, tooltip: 'Prioritization Matrix' },
-    { href: '/suggestions', label: 'AI Suggestions', icon: Lightbulb, tooltip: 'AI Suggestions' },
+  {
+    href: '/',
+    label: 'AI Dashboard',
+    icon: LayoutDashboard,
+    tooltip: 'AI Dashboard',
+  },
+  { href: '/roadmap', label: 'Roadmap', icon: Kanban, tooltip: 'Roadmap' },
+  {
+    href: '/matrix',
+    label: 'Matrix',
+    icon: ScatterChart,
+    tooltip: 'Prioritization Matrix',
+  },
+  {
+    href: '/suggestions',
+    label: 'AI Suggestions',
+    icon: Lightbulb,
+    tooltip: 'AI Suggestions',
+  },
 ];
 
 export function Nav() {
