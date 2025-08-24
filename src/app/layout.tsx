@@ -29,6 +29,7 @@ import { FeatureProvider } from '@/context/FeatureContext';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Logo } from '@/components/logo';
+import { useEffect, useState } from 'react';
 
 // Note: Can't export metadata from a client component.
 // This can be moved to a separate file or defined in a server component parent if needed.
@@ -43,9 +44,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme) {
+      setTheme(storedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={theme}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
