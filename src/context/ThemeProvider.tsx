@@ -29,11 +29,12 @@ export function ThemeProvider({
   storageKey = 'prioritize-ai-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (typeof window !== 'undefined' 
-      ? (localStorage.getItem(storageKey) as Theme)
-      : undefined) || defaultTheme
-  );
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === 'undefined') {
+      return defaultTheme;
+    }
+    return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
+  });
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -41,7 +42,6 @@ export function ThemeProvider({
   }, []);
 
   useEffect(() => {
-    if (!mounted) return;
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
 
@@ -54,16 +54,16 @@ export function ThemeProvider({
     }
 
     root.classList.add(theme);
-  }, [theme, mounted]);
+  }, [theme]);
 
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme);
-      setTheme(theme);
+    setTheme: (newTheme: Theme) => {
+      localStorage.setItem(storageKey, newTheme);
+      setTheme(newTheme);
     },
   };
-
+  
   if (!mounted) {
     return null;
   }
