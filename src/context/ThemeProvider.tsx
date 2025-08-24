@@ -29,44 +29,35 @@ export function ThemeProvider({
   storageKey = 'vite-ui-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === 'undefined') {
-      return defaultTheme;
-    }
-    return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
-  });
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [theme, setTheme] = useState<Theme>(
+    () => (typeof window !== 'undefined' 
+      ? localStorage.getItem(storageKey) as Theme 
+      : undefined) || defaultTheme
+  );
 
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
 
-    let currentTheme = theme;
     if (theme === 'system') {
-      currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
         : 'light';
+      root.classList.add(systemTheme);
+      return;
     }
-    root.classList.add(currentTheme);
-    localStorage.setItem(storageKey, theme);
-  }, [theme, storageKey]);
 
+    root.classList.add(theme);
+  }, [theme]);
 
   const value = {
     theme,
-    setTheme,
+    setTheme: (theme: Theme) => {
+      localStorage.setItem(storageKey, theme);
+      setTheme(theme);
+    },
   };
 
-  if (!mounted) {
-    // To prevent hydration mismatch, we'll render null on the server
-    // and on the initial client render. The content will appear after mounting.
-    return null;
-  }
-  
   return (
     <ThemeProviderContext.Provider {...props} value={value}>
       {children}
