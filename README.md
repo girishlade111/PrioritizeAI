@@ -73,3 +73,15 @@ This application is built with a focus on performance by leveraging the **Next.j
 -   **Instant Navigation:** Navigating between pages is nearly instantaneous thanks to the `next/link` component, which pre-fetches page data in the background. Since most pages are rendered on the server, navigation feels seamless without the "loading" state common in traditional single-page applications.
 
 The previously reported issue of 3-5 minute loading times between tabs has been resolved by this architectural shift from a fully client-side rendered app to a server-rendered one.
+
+## Deploy
+
+This app requires a Node.js server runtime (Next.js App Router + Genkit server actions) — it cannot be statically exported. Deploy to a platform that supports Next.js SSR, e.g. Netlify, Vercel, or Cloudflare Workers.
+
+Required environment variable:
+
+- `GOOGLE_GENAI_API_KEY` — Google AI (Gemini) API key used by the Genkit `suggestFeatures` flow.
+
+## Author
+
+Built by Girish Lade — https://ladestack.in
